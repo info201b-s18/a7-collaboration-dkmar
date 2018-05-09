@@ -31,11 +31,15 @@ chart_one_function <- function(data) {
   group <- factor(data$coding_experience,
                   levels = c("Not Specified", "Lots", "Moderate",
                              "Experimented", "Never"))
+  color_select <- c(c(rgb(254/255, 67/255, 101/255), 
+                      rgb(252/255, 157/255, 154/255),
+                      rgb(249/255, 205/255, 173/255),
+                      rgb(248/255, 202/255, 0/255),
+                      rgb(131/255, 175/255, 155/255)))
   chart <- ggplot() + theme_bw() +
     geom_bar(aes(y = n, x = class, fill = group),
              data = survey_data_sorted, stat = "identity") +
-    scale_fill_manual(values = c("coral", "gold", "deepskyblue",
-                                 "seagreen1", "pink1")) +
+    scale_fill_manual(values = color_select) +
     geom_text(data = survey_data_sorted,
               aes(x = class, y = n, label = paste0(n, " students")),
               size = 3, position = position_stack(vjust = 0.5)) +
