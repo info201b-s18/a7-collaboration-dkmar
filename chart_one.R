@@ -16,47 +16,48 @@ survey_data_sorted <- survey_data %>%
   replace(. == "", "Not Specified") %>%
   group_by(class_standing, coding_experience) %>%
   tally(sort = TRUE) %>%
+  rename("number_of_students" = n) %>%
   arrange(match(class_standing, c("Freshman", "Sophomore", "Junior", "Senior",
                                   "Not Specified")),
-          match(coding_experience, c("Never", "Experimented", "Moderate",
-                                     "Lots", "Not Specified")))
+          match(coding_experience, c("Lots", "Experimented", "Moderate",
+                                     "Never", "Not Specified"))) 
+
+# Factor class standing and experience level so the order of x-asix of a chart
+# can be rearrange by desired order
+survey_data_sorted$class_standing <- factor(survey_data_sorted$class_standing,
+                levels = c("Freshman", "Sophomore", "Junior", "Senior",
+                           "Not Specified"))
+survey_data_sorted$coding_experience <- factor(survey_data_sorted$coding_experience,
+                levels = c("Lots", "Experimented", "Moderate", "Never",
+                           "Not Specified"))
 
 # Function called to draw the chart 
-chart_one_function <- function(data) {
-  # First factor class standing and experience level to rearrange
-  # the order of x-asix
-  class <- factor(data$class_standing,
-                  levels = c("Freshman", "Sophomore", "Junior", "Senior",
-                             "Not Specified"))
-  group <- factor(data$coding_experience,
-                  levels = c("Not Specified", "Lots", "Moderate",
-                             "Experimented", "Never"))
+chart_one_function <- function(data, x, y, fill_y) {
+  # setting the color for the chart
   color_select <- c(c(rgb(254/255, 67/255, 101/255), 
                       rgb(252/255, 157/255, 154/255),
                       rgb(249/255, 205/255, 173/255),
                       rgb(248/255, 202/255, 0/255),
                       rgb(131/255, 175/255, 155/255)))
+  text <- paste0("Number of Students: ", data[[y]])
+  # making the chart using ggplot2 and ggplotly
   chart <- ggplot() + theme_bw() +
-    geom_bar(aes(y = n, x = class, fill = group),
-             data = survey_data_sorted, stat = "identity") +
+    geom_bar(aes(y = data[[y]], x = data[[x]], fill = data[[fill_y]],
+                 label = text),
+             data = data, stat = "identity") +
     scale_fill_manual(values = color_select) +
-    geom_text(data = survey_data_sorted,
-              aes(x = class, y = n, label = paste0(n, " students")),
-              size = 3, position = position_stack(vjust = 0.5)) +
-    theme(legend.position = "bottom",
-          legend.direction = "horizontal",
-          legend.title = element_text(size = 8),
+    theme(legend.title = element_text(size = 8),
           legend.background = element_rect(fill = "white",
                                            size = 0.5,
                                            linetype = "solid",
                                            colour = "black"),
           axis.title.y = element_text(angle = 0, vjust = 0.5),
           plot.title = element_text(face = "bold", hjust = 0.5)) +
-    labs(x = "Class Standing", y = "Number \n of \n Students",
-         fill = "Coding Experience") +
-    ggtitle("Programing Experience by Class Standing")
-  return(chart)
+    labs(x =gsub("_", " ", x),
+         y = gsub("_", " ", y),
+         fill = gsub("_", " ", fill_y)) +
+    ggtitle(paste0(gsub("_", " ", fill_y), " by ", gsub("_", " ", x)))
+  return(ggplotly(chart, tooltip = c("label")))
 }
 
-# Testing the function
-chart_one_function(survey_data_sorted)
+chart_one_function(survey_data_sorted, "class_standing", "number_of_students", "coding_experience")
