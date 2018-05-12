@@ -42,6 +42,17 @@ sorted_table <- data %>%
   arrange(match(class_standing, class_order),
           match(coding_experience, exp_order))
 
+# Factor class standing and experience level so the order of x-asix of a chart
+# can be rearrange by desired order
+sorted_table$class_standing <- factor(sorted_table$class_standing,
+                                      levels = c("Freshman", "Sophomore",
+                                                 "Junior", "Senior",
+                                                 "Not Specified"))
+sorted_table$coding_experience <- factor(sorted_table$coding_experience,
+                                         levels = c("Lots", "Experimented",
+                                                    "Moderate", "Never",
+                                                    "Not Specified"))
+
 #Function....
 
 
