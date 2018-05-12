@@ -16,10 +16,11 @@ chart_one_function <- function(data, x, y, fill_y) {
                       rgb(248/255, 202/255, 0/255),
                       rgb(131/255, 175/255, 155/255)))
   # making the chart using ggplot2 and ggplotly
-  text <- paste0("Number of Students: ", data[[y]])
+  info <- paste0("Number of Students: ", data[[y]])
   chart <- ggplot() + theme_bw() +
-    geom_bar(aes(y = data[[y]], x = data[[x]], fill = data[[fill_y]]),
-             data = data, stat = "identity", label = text) +
+    geom_bar(aes(y = data[[y]], x = data[[x]],
+                 fill = data[[fill_y]], label = info),
+             data = data, stat = "identity") +
     scale_fill_manual(values = color_select) +
     theme(legend.title = element_text(size = 8),
           legend.background = element_rect(fill = "white",
@@ -32,7 +33,7 @@ chart_one_function <- function(data, x, y, fill_y) {
          y = gsub("_", " ", y),
          fill = gsub("_", " ", fill_y)) +
     ggtitle(paste0(gsub("_", " ", fill_y), " by ", gsub("_", " ", x)))
-  return(ggplotly(chart, tooltip = c("label")))
+  return(ggplotly(chart, tooltip = c("info")))
 }
 
 chart_one_function(sorted_table, "class_standing",
