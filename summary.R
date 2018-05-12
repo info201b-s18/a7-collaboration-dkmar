@@ -32,22 +32,15 @@ data[data == ""] <- "Not Specified"
 total_students <- nrow(data) 
 
 #Chloe's requested table
+class_order <- c("Freshman", "Sophomore", "Junior", "Senior", "Not Specified")
+exp_order   <- c("Lots", "Experimented", "Moderate", "Never")
+
 sorted_table <- data %>%
   group_by(class_standing, coding_experience) %>%
   summarise(n = n()) %>%
   rename("number_of_students" = n) %>%
   arrange(match(class_standing, class_order),
           match(coding_experience, exp_order))
-# Factor class standing and experience level so the order of x-asix of a chart
-# can be rearrange by desired order
-sorted_table$class_standing <- factor(sorted_table$class_standing,
-                                      levels = c("Freshman", "Sophomore",
-                                                 "Junior", "Senior",
-                                                 "Not Specified"))
-sorted_table$coding_experience <- factor(sorted_table$coding_experience,
-                                         levels = c("Lots", "Experimented",
-                                                    "Moderate", "Never",
-                                                    "Not Specified"))
 
 #Function....
 
