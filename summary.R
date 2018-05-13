@@ -29,7 +29,7 @@ data$favorite_pet[data$favorite_pet %like% "dog"] <- "Dog"
 data$favorite_pet[data$favorite_pet %like% "cat"] <- "Cat"
 
 #Variable to call, tell me to add more if you need....
-total_students <- nrow(data) 
+num_total_students <- nrow(data) 
 
 #Chloe's requested table
 class_order <- c("Freshman", "Sophomore", "Junior", "Senior", "Not Specified")
@@ -40,7 +40,14 @@ sorted_table <- data %>%
   arrange(match(class_standing, class_order),
           match(coding_experience, exp_order))
 
-#Function....
+#Function
+vector_store_stuff <- c(num_total_students, data, sorted_table)
+get_summary_stuff <- function(){
+  return(vector_store_stuff)
+}
+
+
+
 
 
 
