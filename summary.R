@@ -2,11 +2,10 @@ library(dplyr)
 library(stringr)
 library(data.table)
 
-data <- read.csv("data/intro-survey.csv", stringsAsFactors = FALSE)
-
+intro_function <- function(data){
 #Just rename, should View(data)
-colnames(data) <- c("class_standing", 
-                    "major_interest", 
+colnames(data) <- c("class_standing",
+                    "major_interest",
                     "using_os",
                     "using_cmd",
                     "using_git",
@@ -29,11 +28,28 @@ data$favorite_pet[data$favorite_pet %like% "cat"] <- "Cat"
 data[data == ""] <- "Not Specified"
 
 #Variable to call, tell me to add more if you need....
-num_total_students <- nrow(data) 
+num_total_students <- nrow(data)
+num_never_using_r <- data %>%
+  filter(using_r == "Never") %>%
+  summarize(percent_r_never =
+            round(n() / num_total_students * 100, digits = 0)) %>%
+  .$percent_r_never
+
+num_never_using_git <- data %>%
+  filter(using_git == "Never") %>%
+  summarize(percent_git_never =
+            round(n() / num_total_students * 100, digits = 0)) %>%
+  .$percent_git_never
+
+num_never_coding_exp <- data %>%
+  filter(using_git == "Never") %>%
+  summarize(percent_never_coding =
+            round(n() / num_total_students * 100, digits = 0)) %>%
+  .$percent_never_coding
 
 #Chloe's requested table
 class_order <- c("Freshman", "Sophomore", "Junior", "Senior", "Not Specified")
-exp_order   <- c("Lots", "Experimented", "Moderate", "Never")
+exp_order   <- c("Lots", "Moderate", "Experimented", "Never", "Not Specified")
 
 sorted_table <- data %>%
   group_by(class_standing, coding_experience) %>%
@@ -42,16 +58,6 @@ sorted_table <- data %>%
   arrange(match(class_standing, class_order),
           match(coding_experience, exp_order))
 
-<<<<<<< HEAD
-#Function
-vector_store_stuff <- c(num_total_students, data, sorted_table)
-get_summary_stuff <- function(){
-  return(vector_store_stuff)
-}
-
-
-
-=======
 # Factor class standing and experience level so the order of x-asix of a chart
 # can be rearrange by desired order
 sorted_table$class_standing <- factor(sorted_table$class_standing,
@@ -63,13 +69,10 @@ sorted_table$coding_experience <- factor(sorted_table$coding_experience,
                                                     "Moderate", "Never",
                                                     "Not Specified"))
 
-#Function....
->>>>>>> a84e7c56a681a19a59e292c582f720f1915918de
-
-
-
-
-
-
-
-
+# Return a list that store desired objects
+ret <- list("var1" = num_never_using_r,
+            "var2" = num_never_using_git,
+            "var3" = num_never_coding_exp,
+            "modified_table" = data)
+return(ret)
+}
