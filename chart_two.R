@@ -5,10 +5,9 @@ library("dplyr")
 library("ggplot2")
 library("ggmosaic")
 library("plotly")
-source("summary.R")
 
 # Correlation between coding experience and use of git
-chart_two_function <- function() {
+chart_two_function <- function(data) {
   code_xp_git <- count(data, coding_experience, using_git)
   
   # Define ordering of Git experience (E.g. Expert after Intermediate)
