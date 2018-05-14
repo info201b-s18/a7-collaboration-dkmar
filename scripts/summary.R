@@ -22,7 +22,7 @@ summarizing_data <- function(data){
   data$favorite_pet[data$favorite_pet %like% "dog"] <- "Dog"
   data$favorite_pet[data$favorite_pet %like% "cat"] <- "Cat"
   data[data == ""] <- "Not Specified"
-  
+
   #Variable to call, tell me to add more if you need....
   num_total_students <- nrow(data)
   num_never_using_r <- data %>%
@@ -30,30 +30,30 @@ summarizing_data <- function(data){
     summarize(percent_r_never =
               round(n() / num_total_students * 100, digits = 0)) %>%
     .$percent_r_never
-  
+
   num_never_using_git <- data %>%
     filter(using_git == "Never") %>%
     summarize(percent_git_never =
               round(n() / num_total_students * 100, digits = 0)) %>%
     .$percent_git_never
-  
+
   num_never_coding_exp <- data %>%
     filter(using_git == "Never") %>%
     summarize(percent_never_coding =
               round(n() / num_total_students * 100, digits = 0)) %>%
     .$percent_never_coding
-  
+
   #Chloe's requested table
   class_order <- c("Freshman", "Sophomore", "Junior", "Senior", "Not Specified")
   exp_order   <- c("Lots", "Moderate", "Experimented", "Never", "Not Specified")
-  
+
   sorted_table <- data %>%
     group_by(class_standing, coding_experience) %>%
     summarise(n = n()) %>%
     rename("number_of_students" = n) %>%
     arrange(match(class_standing, class_order),
             match(coding_experience, exp_order))
-  
+
   # Factor class standing and experience level so the order of x-asix of a chart
   # can be rearrange by desired order
   sorted_table$class_standing <- factor(sorted_table$class_standing,
@@ -64,7 +64,7 @@ summarizing_data <- function(data){
                                            levels = c("Lots", "Experimented",
                                                       "Moderate", "Never",
                                                       "Not Specified"))
-  
+
   # Return a list that store desired objects
   ret <- list("total_students" = num_total_students,
               "no_exp_r" = num_never_using_r,

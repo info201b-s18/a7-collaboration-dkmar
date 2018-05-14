@@ -1,4 +1,4 @@
-# Function for drawing the chart 
+# Function for drawing the chart
 chart_one_function <- function(data, x, y, fill_y) {
   # setting the color for the chart
   color_select <- c(c(rgb(254 / 255, 67 / 255, 101 / 255),
