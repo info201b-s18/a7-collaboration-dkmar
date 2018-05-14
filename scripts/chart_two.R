@@ -1,12 +1,3 @@
-library("dplyr")
-library("ggplot2")
-library("ggthemes")
-library("ggmosaic")
-library("plotly")
-library("lintr")
-library("stringr")
-library("data.table")
-
 # Correlation between coding experience and use of git
 chart_two_function <- function(data) {
   code_xp_git <- count(data, coding_experience, using_git)
@@ -38,11 +29,11 @@ chart_two_function <- function(data) {
                       rgb(248 / 255, 202 / 255, 0 / 255),
                       rgb(131 / 255, 175 / 255, 155 / 255)))
 
-  chart2 <- ggplot() +
+  ggplot(code_xp_git) +
     geom_mosaic(aes(
-      weight = code_xp_git[["n"]],
-      x = product(code_xp_git[["coding_experience"]]),
-      fill = code_xp_git[["using_git"]]
+      weight = n,
+      x = product(coding_experience),
+      fill = using_git
     )) +
     scale_fill_manual(
       guide = guide_legend(title = "Git Usage", reverse = TRUE),
@@ -60,5 +51,4 @@ chart_two_function <- function(data) {
         margin = margin(t = -15),
         size = 14,
         hjust = 0.5))
-  return(chart2)
 }

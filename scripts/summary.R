@@ -1,12 +1,3 @@
-library("dplyr")
-library("ggplot2")
-library("ggthemes")
-library("ggmosaic")
-library("plotly")
-library("lintr")
-library("stringr")
-library("data.table")
-
 summarizing_data <- function(data){
   #Just rename, should View(data)
   colnames(data) <- c("class_standing",

@@ -1,12 +1,3 @@
-library("dplyr")
-library("ggplot2")
-library("ggthemes")
-library("ggmosaic")
-library("plotly")
-library("lintr")
-library("stringr")
-library("data.table")
-
 # Function for drawing the chart 
 chart_one_function <- function(data, x, y, fill_y) {
   # setting the color for the chart
