@@ -33,7 +33,7 @@ num_total_students <- nrow(data)
 
 #Chloe's requested table
 class_order <- c("Freshman", "Sophomore", "Junior", "Senior", "Not Specified")
-exp_order   <- c("Lots", "Experimented", "Moderate", "Never")
+exp_order   <- c("Lots", "Moderate", "Experimented", "Never")
 
 sorted_table <- data %>%
   group_by(class_standing, coding_experience) %>%
@@ -42,16 +42,7 @@ sorted_table <- data %>%
   arrange(match(class_standing, class_order),
           match(coding_experience, exp_order))
 
-<<<<<<< HEAD
-#Function
-vector_store_stuff <- c(num_total_students, data, sorted_table)
-get_summary_stuff <- function(){
-  return(vector_store_stuff)
-}
 
-
-
-=======
 # Factor class standing and experience level so the order of x-asix of a chart
 # can be rearrange by desired order
 sorted_table$class_standing <- factor(sorted_table$class_standing,
@@ -59,12 +50,8 @@ sorted_table$class_standing <- factor(sorted_table$class_standing,
                                                  "Junior", "Senior",
                                                  "Not Specified"))
 sorted_table$coding_experience <- factor(sorted_table$coding_experience,
-                                         levels = c("Lots", "Experimented",
-                                                    "Moderate", "Never",
+                                         levels = c("Lots", "Moderate", "Experimented", "Never",
                                                     "Not Specified"))
-
-#Function....
->>>>>>> a84e7c56a681a19a59e292c582f720f1915918de
 
 
 
