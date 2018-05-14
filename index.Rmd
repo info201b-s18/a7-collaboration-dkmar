@@ -1,0 +1,31 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+
+
+
+This plot shows the coding experience of different class standings, from which we see
+that Sophomores are the largest group of students in this class. For every class standing, 
+the number of experienced programmers (with lots or moderate coding experience) is more
+than half of the total number. Hence it would not be very surprising if students generally
+do a great job in this class. Sophomore has the largest group of students with no programming
+experience, which is very interesting.
+
+`r chart_one_function(sorted_table, "class_standing", "number_of_students", "coding_experience")`
+
+This second plot shows the git usage by coding experience.The width of each bar is proportional
+to the number of people with the corresponding coding experience. From this plot we see that most 
+students have never used git before. Even more than half of people with moderate coding experience
+have never used git. Although most students with lots of programming experience have used git in
+the past, students at this coding experience level are only a small portion of the whole class.
+
+`r chart_two_function(data)`
+
